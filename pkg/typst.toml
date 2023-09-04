@@ -1,0 +1,7 @@
+[package]
+name = "pyrunner"
+version = "0.0.1"
+entrypoint = "pyrunner.typ"
+authors = ["Peng Guanwen"]
+license = "Unlicense"
+description = "Run python code in typst."

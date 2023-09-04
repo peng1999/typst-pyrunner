@@ -1,0 +1,17 @@
+[package]
+name = "typst-pyrunner"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rustpython = { version = "0.2.0", git = "https://github.com/peng1999/RustPython.git", default-features = false, features = ["freeze-stdlib", "stdlib"] }
+wasm-minimal-protocol = { git = "https://github.com/astrale-sharp/wasm-minimal-protocol.git", version = "0.1.0" }
+
+[profile.dev]
+lto = true          # Enable link-time optimization
+strip = true        # Strip symbols from binary*
+opt-level = 'z'     # Optimize for size
+codegen-units = 1   # Reduce number of codegen units to increase optimizations
+panic = 'abort'     # Abort on panic
