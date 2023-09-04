@@ -14,6 +14,13 @@ re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 ```)
 ````
 
+## Current limitations
+
+- No file and network IO due to limitations of typst plugin
+  - As a consequence, there is no way to import third-party modules. Only bundled stdlib modules are available.
+- No randomness
+- The output is always `__str__`-ify of the last expression
+
 ## Use pre-built package
 
 Download from [releases](https://github.com/peng1999/typst-pyrunner/releases) page and copy the files to `~/.local/share/typst/packages/local/pyrunner/0.0.1`.
