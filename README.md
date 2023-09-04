@@ -14,7 +14,11 @@ re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 ```)
 ````
 
-# Build from source
+## Use pre-built package
+
+Download from [releases](https://github.com/peng1999/typst-pyrunner/releases) page and copy the files to `~/.local/share/typst/packages/local/pyrunner/0.0.1`.
+
+## Build from source
 
 Install `wasi-stub`.
 
