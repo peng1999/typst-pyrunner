@@ -7,3 +7,8 @@ string = "My email address is john.doe@example.com and my friend's email address
 
 re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 ```)
+
+#python(```
+import sys
+sys.version
+```)
