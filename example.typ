@@ -17,3 +17,10 @@ sys.version
 [1, True, {"a": 3, 5: "hello"}, None]
 ```)
 
+#let pyadd = ```python
+f'{a+b=}'
+```
+
+#python(pyadd, globals: (a: 1, b: 2))
+
+#python(pyadd, globals: (a: "1", b: "2"))
