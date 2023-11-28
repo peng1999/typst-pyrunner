@@ -18,8 +18,6 @@ re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 
 - No file and network IO due to limitations of typst plugin
   - As a consequence, there is no way to import third-party modules. Only bundled stdlib modules are available.
-- No randomness
-- The output is always `__str__`-ify of the last expression
 
 ## Use pre-built package
 

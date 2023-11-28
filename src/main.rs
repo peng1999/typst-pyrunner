@@ -1,7 +1,7 @@
 use rustpython::vm::{
-    builtins::{PyBaseException, PyBaseExceptionRef, PyDict, PyList, PyTuple, PyInt, PyBool},
+    builtins::{PyBaseException, PyBaseExceptionRef, PyBool, PyDict, PyInt, PyList, PyTuple},
     types::Representable,
-    PyObjectRef, VirtualMachine, PyPayload, AsObject,
+    AsObject, PyObjectRef, PyPayload, VirtualMachine,
 };
 use wasm_minimal_protocol::{initiate_protocol, wasm_func};
 
