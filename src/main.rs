@@ -1,7 +1,7 @@
 use rustpython::vm::{
-    builtins::{PyBaseException, PyBaseExceptionRef},
+    builtins::{PyBaseException, PyBaseExceptionRef, PyDict, PyList, PyTuple, PyInt, PyBool},
     types::Representable,
-    VirtualMachine,
+    PyObjectRef, VirtualMachine, PyPayload, AsObject,
 };
 use wasm_minimal_protocol::{initiate_protocol, wasm_func};
 
@@ -22,10 +22,55 @@ pub fn run_py(code: &[u8]) -> Result<Vec<u8>, String> {
             PyBaseException::repr_str(&err, vm).unwrap_or("Error during print".to_string())
         })
     })?;
-    Ok(result.into_bytes())
+    let mut buffer = vec![];
+    ciborium::ser::into_writer(&result, &mut buffer).map_err(|err| err.to_string())?;
+    Ok(buffer)
 }
 
-fn run_with_vm(vm: &VirtualMachine, code: &str) -> Result<String, PyBaseExceptionRef> {
+fn py_to_cbor(
+    vm: &VirtualMachine,
+    obj: PyObjectRef,
+) -> Result<ciborium::Value, PyBaseExceptionRef> {
+    if obj.is(&vm.ctx.none()) {
+        return Ok(ciborium::Value::Null);
+    }
+    if let Ok(num) = obj.clone().downcast::<PyInt>() {
+        let int = num.try_to_primitive::<i64>(vm)?;
+        if obj.is_instance(PyBool::class(&vm.ctx).as_object(), vm)? {
+            return Ok((int != 0).into());
+        }
+        return Ok(int.into());
+    }
+    if let Ok(list) = obj.clone().downcast::<PyTuple>() {
+        let values = list
+            .into_iter()
+            .map(|item| py_to_cbor(vm, item.clone()))
+            .collect::<Result<Vec<_>, _>>()?;
+        return Ok(values.into());
+    }
+    if let Ok(list) = obj.clone().downcast::<PyList>() {
+        let values = list
+            .borrow_vec()
+            .iter()
+            .map(|item| py_to_cbor(vm, item.clone()))
+            .collect::<Result<Vec<_>, _>>()?;
+        return Ok(values.into());
+    };
+    if let Ok(dict) = obj.clone().downcast::<PyDict>() {
+        let kvs = dict
+            .into_iter()
+            .map(|(key, value)| {
+                let key = ciborium::Value::from(key.str(vm)?.to_string());
+                let value = py_to_cbor(vm, value.clone())?;
+                Ok((key, value))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        return Ok(kvs.into());
+    };
+    Ok(obj.str(vm)?.to_string().into())
+}
+
+fn run_with_vm(vm: &VirtualMachine, code: &str) -> Result<ciborium::Value, PyBaseExceptionRef> {
     let scope = vm.new_scope_with_builtins();
     let code = vm
         .compile(
@@ -35,5 +80,5 @@ fn run_with_vm(vm: &VirtualMachine, code: &str) -> Result<String, PyBaseExceptio
         )
         .map_err(|err| vm.new_syntax_error(&err, Some(code)))?;
     let obj = vm.run_code_obj(code, scope)?;
-    Ok(obj.str(vm)?.to_string())
+    Ok(py_to_cbor(vm, obj)?)
 }

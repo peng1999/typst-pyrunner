@@ -12,3 +12,7 @@ re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 import sys
 sys.version
 ```)
+
+#python(```
+[1, True, {"a": 3, 5: "hello"}, None]
+```)

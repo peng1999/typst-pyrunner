@@ -6,11 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ciborium = "0.2.1"
 rustpython = { version = "0.3.0", git = "https://github.com/RustPython/RustPython.git", features = ["freeze-stdlib", "stdlib"] }
 wasm-minimal-protocol = { git = "https://github.com/astrale-sharp/wasm-minimal-protocol.git", version = "0.1.0" }
 
 [profile.dev]
-lto = true          # Enable link-time optimization
+lto = 'thin'        # Enable link-time optimization
 opt-level = 'z'     # Optimize for size
 panic = 'abort'     # Abort on panic
 

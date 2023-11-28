@@ -6,7 +6,7 @@
   } else {
     code
   }
-  str(py.run_py(bytes(code)))
+  cbor.decode(py.run_py(bytes(code)))
 }
 
 // Usage:
