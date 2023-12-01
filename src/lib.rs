@@ -13,10 +13,6 @@ use wasm_minimal_protocol::{initiate_protocol, wasm_func};
 
 initiate_protocol!();
 
-// This is to give a entry point for the wasm file, so the compiler won't add __wasm_call_ctors to
-// all exported functions.
-fn main() {}
-
 #[wasm_func]
 pub fn run_py(code: &[u8], globals: &[u8]) -> Result<Vec<u8>, String> {
     let code = std::str::from_utf8(code).map_err(|err| err.to_string())?;

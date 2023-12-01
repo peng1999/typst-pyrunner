@@ -5,6 +5,9 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]
 ciborium = "0.2.1"
 rustpython = { version = "0.3.0", git = "https://github.com/peng1999/RustPython.git", features = ["freeze-stdlib", "stdlib"] }
