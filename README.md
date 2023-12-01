@@ -3,27 +3,30 @@
 Run python code in [typst](https://typst.app).
 
 ````typst
-#import "@local/pyrunner:0.0.1": python
+#import "@local/pyrunner:0.0.2" as py
 
-#python(```
-import re
-
-string = "My email address is john.doe@example.com and my friend's email address is jane.doe@example.net."
-
-re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
+#let compiled = py.compile(
+```python
+def find_emails(string):
+    import re
+    return re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
 ```)
+
+#let txt = "My email address is john.doe@example.com and my friend's email address is jane.doe@example.net."
+
+#py.call(compiled, "find_emails", txt)
 ````
 
-The python code will be run in block mode, where the last expression will be the return value of block. This is similar to blocks in Jupyter Notebook. You can also specify globals.
+Block mode is also available.
 
 ````typst
 #let code = ```
 f'{a+b=}'
 ```
 
-#python(code, globals: (a: 1, b: 2))
+#py.block(code, globals: (a: 1, b: 2))
 
-#python(code, globals: (a: "1", b: "2"))
+#py.block(code, globals: (a: "1", b: "2"))
 ````
 
 The result will be `a+b=3` and `a+b='12'`.

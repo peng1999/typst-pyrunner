@@ -2,7 +2,10 @@ use rustpython::vm::{
     builtins::{
         PyBaseException, PyBaseExceptionRef, PyBool, PyBytes, PyDict, PyInt, PyList, PyTuple,
     },
+    bytecode::BasicBag,
+    compiler::CodeObject,
     convert::ToPyObject,
+    frozen::FrozenCodeObject,
     types::Representable,
     AsObject, PyObjectRef, PyPayload, VirtualMachine,
 };
@@ -37,6 +40,48 @@ pub fn run_py(code: &[u8], globals: &[u8]) -> Result<Vec<u8>, String> {
             })
             .collect::<Result<Vec<_>, _>>()?;
         run_with_vm(vm, code, &globals).map_err(|err| pyerr_to_string(err, vm))
+    })?;
+
+    let mut buffer = vec![];
+    ciborium::ser::into_writer(&result, &mut buffer).map_err(|err| err.to_string())?;
+    Ok(buffer)
+}
+
+#[wasm_func]
+pub fn compile_py(code: &[u8]) -> Result<Vec<u8>, String> {
+    let code = std::str::from_utf8(code).map_err(|err| err.to_string())?;
+    let interpreter = rustpython::InterpreterConfig::default()
+        .init_stdlib()
+        .interpreter();
+    let result = interpreter.enter(|vm| {
+        let code = vm
+            .compile(
+                code,
+                rustpython::vm::compiler::Mode::Exec,
+                "<main>".to_string(),
+            )
+            .map_err(|err| pyerr_to_string(vm.new_syntax_error(&err, None), vm))?;
+        let frozen_code = FrozenCodeObject::encode(&code);
+        Ok::<_, String>(frozen_code)
+    })?;
+
+    Ok(result.bytes)
+}
+
+#[wasm_func]
+fn call_compiled(frozen_code: &[u8], fn_name: &[u8], args: &[u8]) -> Result<Vec<u8>, String> {
+    let fn_name = std::str::from_utf8(fn_name).map_err(|err| err.to_string())?;
+    let args = ciborium::de::from_reader::<ciborium::Value, _>(args)
+        .map_err(|err| err.to_string())?
+        .into_array()
+        .map_err(|_| "args not an array".to_string())?;
+    let code = FrozenCodeObject { bytes: frozen_code }.decode(BasicBag);
+
+    let interpreter = rustpython::InterpreterConfig::default()
+        .init_stdlib()
+        .interpreter();
+    let result = interpreter.enter(|vm| {
+        run_compiled_with_vm(vm, code, fn_name, args).map_err(|err| pyerr_to_string(err, vm))
     })?;
 
     let mut buffer = vec![];
@@ -134,13 +179,24 @@ fn run_with_vm(
     for (name, value) in globals {
         scope.globals.set_item(name, value.clone(), vm)?;
     }
-    let code = vm
-        .compile(
-            code,
-            rustpython::vm::compiler::Mode::BlockExpr,
-            "<main>".to_string(),
-        )
-        .map_err(|err| vm.new_syntax_error(&err, Some(code)))?;
-    let obj = vm.run_code_obj(code, scope)?;
+    let obj = vm.run_block_expr(scope, code)?;
     Ok(py_to_cbor(vm, obj)?)
+}
+
+fn run_compiled_with_vm(
+    vm: &VirtualMachine,
+    code: CodeObject,
+    fn_name: &str,
+    args: Vec<ciborium::Value>,
+) -> Result<ciborium::Value, PyBaseExceptionRef> {
+    let code = vm.ctx.new_code(code);
+    let scope = vm.new_scope_with_builtins();
+    vm.run_code_obj(code, scope.clone())?;
+    let fn_obj = scope.globals.get_item(fn_name, vm)?;
+    let args = args
+        .into_iter()
+        .map(|arg| cbor_to_py(vm, arg))
+        .collect::<Result<Vec<_>, _>>()?;
+    let result = fn_obj.call(args, vm)?;
+    Ok(py_to_cbor(vm, result)?)
 }

@@ -1326,7 +1326,7 @@ dependencies = [
 [[package]]
 name = "rustpython"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "atty",
  "cfg-if",
@@ -1358,7 +1358,7 @@ dependencies = [
 [[package]]
 name = "rustpython-codegen"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "ahash",
  "bitflags 2.4.1",
@@ -1375,7 +1375,7 @@ dependencies = [
 [[package]]
 name = "rustpython-common"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "ascii",
  "bitflags 2.4.1",
@@ -1402,7 +1402,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "rustpython-codegen",
  "rustpython-compiler-core",
@@ -1412,7 +1412,7 @@ dependencies = [
 [[package]]
 name = "rustpython-compiler-core"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "bitflags 2.4.1",
  "itertools",
@@ -1425,7 +1425,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "rustpython-compiler",
  "rustpython-derive-impl",
@@ -1435,7 +1435,7 @@ dependencies = [
 [[package]]
 name = "rustpython-derive-impl"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "itertools",
  "maplit",
@@ -1527,7 +1527,7 @@ dependencies = [
 [[package]]
 name = "rustpython-pylib"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "glob",
  "rustpython-compiler-core",
@@ -1537,7 +1537,7 @@ dependencies = [
 [[package]]
 name = "rustpython-stdlib"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "adler32",
  "ahash",
@@ -1604,7 +1604,7 @@ dependencies = [
 [[package]]
 name = "rustpython-vm"
 version = "0.3.0"
-source = "git+https://github.com/RustPython/RustPython.git#dc4f6994fb00ed02090bee888ba640434e44deec"
+source = "git+https://github.com/peng1999/RustPython.git#b25cbdfaaca4bd795fe02f6f11e5dc91003e53d3"
 dependencies = [
  "ahash",
  "ascii",
