@@ -35,6 +35,14 @@ f'{a+b=}'
 
 The result will be `a+b=3` and `a+b='12'`.
 
+## Current limitations
+
+Due to restrictions of typst and its plugin system, some Python function will not work as expected:
+- File and network IO will always raise an exception.
+- `datatime.now` will always return 1970-01-01.
+
+Also, there is no way to import third-party modules. Only bundled stdlib modules are available. We might find a way to lift this restriction, so feel free to submit an issue if you want this functionality.
+
 ## API
 ### `block`
 Run Python code block and get its result.
@@ -65,15 +73,6 @@ Call a python function with arguments.
 
 #### Returns
 The result of the function call.
-
-## Current limitations
-
-- No file and network IO due to limitations of typst plugin
-- There is no way to import third-party modules. Only bundled stdlib modules are available.
-
-## Use pre-built package
-
-Download from [releases](https://github.com/peng1999/typst-pyrunner/releases) page and copy the files to `~/.local/share/typst/packages/local/pyrunner/0.0.1`.
 
 ## Build from source
 
