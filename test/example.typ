@@ -1,4 +1,4 @@
-#import "@local/pyrunner:0.0.2" as py
+#import "@local/pyrunner:0.0.1" as py
 
 #let compiled = py.compile(
 ```python
@@ -32,3 +32,20 @@ sys.version, sys.path
 
 #py.call(compiled, "add", 1, 2)
 #py.call(compiled, "add", "1", "2")
+
+#let comp = py.compile(
+        ```python
+def tai_ts():
+    import datetime
+    n = datetime.datetime.now()
+    return n
+
+def file_io():
+    try:
+        open("test.txt", "w")
+    except Exception as e:
+        return f"Error: {e}"
+    return 1
+```)
+#py.call(comp, "tai_ts")
+#py.call(comp, "file_io")
