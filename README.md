@@ -3,7 +3,7 @@
 Run python code in [typst](https://typst.app) using [RustPython](https://github.com/RustPython/RustPython).
 
 ````typst
-#import "@preview/pyrunner:0.1.0" as py
+#import "@preview/pyrunner:0.2.0" as py
 
 #let compiled = py.compile(
 ```python
