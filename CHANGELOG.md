@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Panic when calling `open`.
 - Panic when calling `datetime.now()`
 
+### Improved
+
+- Bundled wasm file gets smaller by removing some useless file from stdlib.
+
 ## [0.1.0]
 
 ### Added
