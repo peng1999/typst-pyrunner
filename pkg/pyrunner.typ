@@ -1,7 +1,7 @@
 #let py = plugin("./typst-pyrunner.wasm")
 
 #let extract(code) = {
-  if type(code) == "content" {
+  if type(code) == content {
     code.text
   } else {
     code
@@ -10,7 +10,7 @@
 
 #let block(code, globals: (:)) = {
   let code = extract(code)
-  cbor.decode(py.run_py(bytes(code), cbor.encode(globals)))
+  cbor(py.run_py(bytes(code), cbor.encode(globals)))
 }
 
 #let compile(code) = {
@@ -19,6 +19,6 @@
 }
 
 #let call(compiled, fn_name, ..args) = {
-  cbor.decode(py.call_compiled(compiled, bytes(fn_name), cbor.encode(args.pos())))
+  cbor(py.call_compiled(compiled, bytes(fn_name), cbor(args.pos())))
 }
 
