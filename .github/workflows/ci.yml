@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: typst-community/setup-typst@v4
+      - name: Compile example.typ
+        run: typst compile test/example.typ -o example.pdf
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: example-pdf
+          path: example.pdf
