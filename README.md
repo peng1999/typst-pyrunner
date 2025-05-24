@@ -1,4 +1,5 @@
 # Typst Python Runner Plugin
+[![CI](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml/badge.svg)](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml)
 
 Run python code in [typst](https://typst.app) using [RustPython](https://github.com/RustPython/RustPython).
 
