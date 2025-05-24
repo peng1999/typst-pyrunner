@@ -19,6 +19,6 @@
 }
 
 #let call(compiled, fn_name, ..args) = {
-  cbor(py.call_compiled(compiled, bytes(fn_name), cbor(args.pos())))
+  cbor(py.call_compiled(compiled, bytes(fn_name), cbor.encode(args.pos())))
 }
 

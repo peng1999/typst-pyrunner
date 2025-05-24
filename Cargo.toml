@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 ciborium = "0.2.1"
-rustpython = { version = "0.3.0", git = "https://github.com/peng1999/RustPython.git", features = ["freeze-stdlib", "stdlib"] }
-wasm-minimal-protocol = { git = "https://github.com/astrale-sharp/wasm-minimal-protocol.git", version = "0.1.0" }
+rustpython = { branch = "trim", git = "https://github.com/peng1999/RustPython.git", features = ["freeze-stdlib", "stdlib"], default-features = false }
+wasm-minimal-protocol = { git = "https://github.com/astrale-sharp/wasm-minimal-protocol.git", rev = "9773b6f" }
 
 [profile.dev]
 lto = 'thin'        # Enable link-time optimization

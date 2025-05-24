@@ -1,4 +1,4 @@
-#import "@local/pyrunner:0.0.1" as py
+#import "@local/pyrunner:0.2.0" as py
 
 #let compiled = py.compile(
 ```python

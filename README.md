@@ -87,14 +87,13 @@ cargo install --git https://github.com/astrale-sharp/wasm-minimal-protocol.git w
 Build pyrunner.
 
 ```
-rustup target add wasm32-wasi
-cargo build --target wasm32-wasi
+rustup target add wasm32-wasip1
+cargo build --release --target wasm32-wasip1
 make pkg/typst-pyrunner.wasm
 ```
 
 Add to local package.
 
 ```
-mkdir -p ~/.local/share/typst/packages/local/pyrunner/0.0.1
-cp pkg/* ~/.local/share/typst/packages/local/pyrunner/0.0.1
+make install BUILD_TYPE=release
 ```
