@@ -9,13 +9,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: typst-community/setup-typst@v4
-      - name: Compile example.typ
-        run: typst compile test/example.typ -o example.pdf
-      - name: Upload PDF
-        uses: actions/upload-artifact@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build plugin
+        run: |
+          rustup target add wasm32-wasip1
+          cargo install --git https://github.com/peng1999/wasm-minimal-protocol.git wasi-stub --locked
+          cargo build --release --target wasm32-wasip1
+          make pkg/typst-pyrunner.wasm BUILD_TYPE=release
+          make install BUILD_TYPE=release
+
+      - name: Setup Typst CLI
+        uses: typst-community/setup-typst@v4
+
+      - name: Compile example.typ to PDF
+        run: typst compile typst-pyrunner/test/example.typ --output typst-pyrunner/example.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
         with:
           name: example-pdf
           path: example.pdf
