@@ -27,10 +27,10 @@ jobs:
         uses: typst-community/setup-typst@v4
 
       - name: Compile example.typ to PDF
-        run: typst compile typst-pyrunner/test/example.typ --output typst-pyrunner/example.pdf
+        run: typst compile test/example.typ
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: example-pdf
-          path: example.pdf
+          path: test/example.pdf
