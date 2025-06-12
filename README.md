@@ -40,7 +40,7 @@ The result will be `a+b=3` and `a+b='12'`.
 
 Due to restrictions of typst and its plugin system, some Python function will not work as expected:
 - File and network IO will always raise an exception.
-- `datatime.now` will always return 1970-01-01.
+- `datetime.now` will always return 1970-01-01.
 
 Also, there is no way to import third-party modules. Only bundled stdlib modules are available. We might find a way to lift this restriction, so feel free to submit an issue if you want this functionality.
 
