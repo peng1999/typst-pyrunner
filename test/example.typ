@@ -49,3 +49,13 @@ def file_io():
 ```)
 #py.call(comp, "tai_ts")
 #py.call(comp, "file_io")
+
+#assert.eq(
+  py.block(
+    ```python
+    pi = 3.14
+    str(t't-strings are new in Python {pi!s}!')
+    ```,
+  ),
+  "Template(strings=('t-strings are new in Python ', '!'), interpolations=(Interpolation(3.14, 'pi', 's', ''),))",
+)

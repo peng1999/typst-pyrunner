@@ -1,3 +1,4 @@
+use rustpython::{InterpreterBuilder, InterpreterBuilderExt};
 use rustpython::vm::{
     builtins::{
         PyBaseException, PyBaseExceptionRef, PyBool, PyBytes, PyDict, PyInt, PyList, PyTuple,
@@ -21,9 +22,7 @@ pub fn run_py(code: &[u8], globals: &[u8]) -> Result<Vec<u8>, String> {
         .into_map()
         .map_err(|_| "globals not a map".to_string())?;
 
-    let interpreter = rustpython::InterpreterConfig::default()
-        .init_stdlib()
-        .interpreter();
+    let interpreter = InterpreterBuilder::new().init_stdlib().interpreter();
     let result = interpreter.enter(|vm| {
         let globals = globals
             .into_iter()
@@ -46,9 +45,7 @@ pub fn run_py(code: &[u8], globals: &[u8]) -> Result<Vec<u8>, String> {
 #[wasm_func]
 pub fn compile_py(code: &[u8]) -> Result<Vec<u8>, String> {
     let code = std::str::from_utf8(code).map_err(|err| err.to_string())?;
-    let interpreter = rustpython::InterpreterConfig::default()
-        .init_stdlib()
-        .interpreter();
+    let interpreter = InterpreterBuilder::new().init_stdlib().interpreter();
     let result = interpreter.enter(|vm| {
         let code = vm
             .compile(
@@ -73,9 +70,7 @@ fn call_compiled(frozen_code: &[u8], fn_name: &[u8], args: &[u8]) -> Result<Vec<
         .map_err(|_| "args not an array".to_string())?;
     let code = FrozenCodeObject { bytes: frozen_code }.decode(BasicBag);
 
-    let interpreter = rustpython::InterpreterConfig::default()
-        .init_stdlib()
-        .interpreter();
+    let interpreter = InterpreterBuilder::new().init_stdlib().interpreter();
     let result = interpreter.enter(|vm| {
         run_compiled_with_vm(vm, code, fn_name, args).map_err(|err| pyerr_to_string(err, vm))
     })?;
