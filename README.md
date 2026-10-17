@@ -1,5 +1,5 @@
 # Typst Python Runner Plugin
-[![CI](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml/badge.svg)](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml)
+[![Build and test status](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml/badge.svg)](https://github.com/peng1999/typst-pyrunner/actions/workflows/ci.yml)
 
 Run python code in [typst](https://typst.app) using [RustPython](https://github.com/RustPython/RustPython).
 
@@ -50,6 +50,8 @@ The API reference is now generated from source comments with [`tidy`](https://ty
 - Source annotations live in `pkg/pyrunner.typ`.
 - Generated reference entry point: `docs/reference.typ`.
 - Build the reference PDF with `make docs`.
+
+See the [API reference](docs/reference.pdf) for all functions and executable examples.
 
 The reference includes executable examples with their actual results. Building it
 requires `pkg/typst-pyrunner.wasm`; follow the build instructions below if it is missing.
