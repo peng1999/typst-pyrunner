@@ -4,7 +4,7 @@
 Run python code in [typst](https://typst.app) using [RustPython](https://github.com/RustPython/RustPython).
 
 ````typst
-#import "@preview/pyrunner:0.2.0" as py
+#import "@preview/pyrunner:0.3.0" as py
 
 #let compiled = py.compile(
 ```python
@@ -45,35 +45,14 @@ Due to restrictions of typst and its plugin system, some Python function will no
 Also, there is no way to import third-party modules. Only bundled stdlib modules are available. We might find a way to lift this restriction, so feel free to submit an issue if you want this functionality.
 
 ## API
-### `block`
-Run Python code block and get its result.
+The API reference is now generated from source comments with [`tidy`](https://typst.app/universe/package/tidy/).
 
-#### Arguments
-- `code` : string | raw content - The Python code to run.
-- `globals` : dict (named optional) - The global variables to bring into scope.
+- Source annotations live in `pkg/pyrunner.typ`.
+- Generated reference entry point: `docs/reference.typ`.
+- Build the reference PDF with `make docs`.
 
-#### Returns
-The last expression of the code block.
-
-### `compile`
-Compile Python code to bytecode.
-
-#### Arguments
-- `code` : string | raw content - The Python code to compile.
-
-#### Returns
-The bytecode representation in `bytes`.
-
-### `call`
-Call a python function with arguments.
-
-#### Arguments
-- `compiled` : bytes - The bytecode representation of Python code.
-- `fn_name` : string - The name of the function to be called.
-- `..args` : any - The arguments to pass to the function.
-
-#### Returns
-The result of the function call.
+The reference includes executable examples with their actual results. Building it
+requires `pkg/typst-pyrunner.wasm`; follow the build instructions below if it is missing.
 
 ## Build from source
 
