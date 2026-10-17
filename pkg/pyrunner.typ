@@ -94,10 +94,10 @@
   compiled,
   /// The name of the Python function to invoke.
   /// -> str
-  fn_name,
+  fn-name,
   /// Positional arguments forwarded to the Python function.
   /// -> any
   ..args,
 ) = {
-  cbor(py.call_compiled(compiled, bytes(fn_name), cbor.encode(args.pos())))
+  cbor(py.call_compiled(compiled, bytes(fn-name), cbor.encode(args.pos())))
 }
